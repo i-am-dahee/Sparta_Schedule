@@ -109,7 +109,6 @@ public class ScheduleService {
     }
 
     // 일정 삭제
-    // TODO : 비밀번호 전달 로직 추가
     @Transactional
     public void delete(Long scheduleId, Long password) {
         Schedule schedule = scheduleRepository.findById(scheduleId)
