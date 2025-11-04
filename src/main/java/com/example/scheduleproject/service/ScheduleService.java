@@ -54,6 +54,7 @@ public class ScheduleService {
     }
 
     // 일정 전체 조회
+    // TODO : 파라미터 조회 로직 추가
     @Transactional(readOnly = true)
     public List<GetScheduleResponse> getAll() {
         List<Schedule> schedules = scheduleRepository.findAll();
@@ -83,7 +84,7 @@ public class ScheduleService {
         schedule.update(
                 request.getTitle(),
                 request.getName()
-                // FIXME : 수정 일시 업데이트
+                // TODO : 수정 일시 업데이트
         );
 
         return new UpdateScheduleResponse(
@@ -96,6 +97,8 @@ public class ScheduleService {
         );
     }
 
+    // 일정 삭제
+    // TODO : 비밀번호 전달 로직 추가
     @Transactional
     public void delete(Long scheduleId) {
         boolean existence = scheduleRepository.existsById(scheduleId);
