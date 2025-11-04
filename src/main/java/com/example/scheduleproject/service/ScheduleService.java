@@ -55,7 +55,6 @@ public class ScheduleService {
     }
 
     // 일정 전체 조회
-    // TODO : 정렬 추가
     @Transactional(readOnly = true)
     public List<GetScheduleResponse> getAll(String name) {
         List<Schedule> schedules;
@@ -91,8 +90,9 @@ public class ScheduleService {
         schedule.update(
                 request.getTitle(),
                 request.getName()
-                // TODO : 수정 일시 업데이트
         );
+
+        scheduleRepository.saveAndFlush(schedule);
 
         return new UpdateScheduleResponse(
                 schedule.getId(),
