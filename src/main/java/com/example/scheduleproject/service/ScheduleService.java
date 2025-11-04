@@ -87,6 +87,10 @@ public class ScheduleService {
                 () -> new IllegalStateException("존재하지 않는 일정입니다.")
         );
 
+        if (!schedule.getPassword().equals(request.getPassword())) {
+            throw new IllegalArgumentException("비밀번호가 일치하지 않습니다.");
+        }
+
         schedule.update(
                 request.getTitle(),
                 request.getName()
@@ -107,11 +111,12 @@ public class ScheduleService {
     // 일정 삭제
     // TODO : 비밀번호 전달 로직 추가
     @Transactional
-    public void delete(Long scheduleId) {
-        boolean existence = scheduleRepository.existsById(scheduleId);
+    public void delete(Long scheduleId, Long password) {
+        Schedule schedule = scheduleRepository.findById(scheduleId)
+                .orElseThrow(() -> new IllegalStateException("존재하지 않는 일정입니다."));
 
-        if (!existence) {
-            throw new IllegalStateException("존재하지 않는 일정입니다.");
+        if (!schedule.getPassword().equals(password)) {
+            throw new IllegalArgumentException("비밀번호가 일치하지 않습니다.");
         }
 
         scheduleRepository.deleteById(scheduleId);
