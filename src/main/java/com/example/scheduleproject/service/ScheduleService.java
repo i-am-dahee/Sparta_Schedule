@@ -54,10 +54,16 @@ public class ScheduleService {
     }
 
     // 일정 전체 조회
-    // TODO : 파라미터 조회 로직 추가
+    // TODO : 정렬 추가
     @Transactional(readOnly = true)
-    public List<GetScheduleResponse> getAll() {
-        List<Schedule> schedules = scheduleRepository.findAll();
+    public List<GetScheduleResponse> getAll(String name) {
+        List<Schedule> schedules;
+
+        if (name != null && !name.isBlank()) {
+            schedules = scheduleRepository.findByName(name);
+        } else {
+            schedules = scheduleRepository.findAll();
+        }
 
         List<GetScheduleResponse> dtos = new ArrayList<>();
         for (Schedule schedule : schedules) {
