@@ -14,22 +14,22 @@ public class Schedule extends BaseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    private String title;
+    private String content;
     @Column(nullable = false)
     private String name;
     @Column(nullable = false)
     private Long password;
-    private String title;
-    private String content;
 
-    public Schedule(String name, Long password, String title, String content) {
-        this.name = name;
-        this.password = password;
+    public Schedule(String title, String content, String name, Long password) {
         this.title = title;
         this.content = content;
+        this.name = name;
+        this.password = password;
     }
 
-    public void update(String name, String title) {
-        this.name = name;
+    public void update(String title, String name) {
         this.title = title;
+        this.name = name;
     }
 }
