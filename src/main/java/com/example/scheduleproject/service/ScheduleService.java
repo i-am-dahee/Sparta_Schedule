@@ -4,6 +4,7 @@ import com.example.scheduleproject.dto.*;
 import com.example.scheduleproject.entity.Schedule;
 import com.example.scheduleproject.repository.ScheduleRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -60,9 +61,9 @@ public class ScheduleService {
         List<Schedule> schedules;
 
         if (name != null && !name.isBlank()) {
-            schedules = scheduleRepository.findByName(name);
+            schedules = scheduleRepository.findByName(name, Sort.by(Sort.Direction.DESC, "modifiedAt"));
         } else {
-            schedules = scheduleRepository.findAll();
+            schedules = scheduleRepository.findAll(Sort.by(Sort.Direction.DESC, "modifiedAt"));
         }
 
         List<GetScheduleResponse> dtos = new ArrayList<>();
