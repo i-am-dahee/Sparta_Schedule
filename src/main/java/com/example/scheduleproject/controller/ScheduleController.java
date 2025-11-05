@@ -2,6 +2,7 @@ package com.example.scheduleproject.controller;
 
 import com.example.scheduleproject.dto.*;
 import com.example.scheduleproject.service.ScheduleService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -18,7 +19,7 @@ public class ScheduleController {
     // 일정 생성
     @PostMapping("/schedules")
     public ResponseEntity<CreateScheduleResponse> createSchedule(
-            @RequestBody CreateScheduleRequest request) {
+            @RequestBody @Valid CreateScheduleRequest request) {
         CreateScheduleResponse result = scheduleService.save(request);
         return ResponseEntity.status(HttpStatus.CREATED).body(result);
     }
@@ -43,7 +44,7 @@ public class ScheduleController {
     @PutMapping("schedules/{scheduleId}")
     public ResponseEntity<UpdateScheduleResponse> updateSchedule(
             @PathVariable Long scheduleId,
-            @RequestBody UpdateScheduleRequest request) {
+            @RequestBody @Valid UpdateScheduleRequest request) {
         UpdateScheduleResponse result = scheduleService.update(scheduleId, request);
         return ResponseEntity.status(HttpStatus.OK).body(result);
     }
@@ -52,7 +53,7 @@ public class ScheduleController {
     @DeleteMapping("/schedules/{scheduleId}")
     public ResponseEntity<Void> deleteSchedule(
             @PathVariable Long scheduleId,
-            @RequestBody DeleteScheduleRequest request) {
+            @RequestBody @Valid DeleteScheduleRequest request) {
         scheduleService.delete(scheduleId, request.getPassword());
         return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }

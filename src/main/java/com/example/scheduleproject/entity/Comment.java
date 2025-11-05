@@ -22,13 +22,13 @@ public class Comment extends BaseEntity {
     private String name;
 
     @Column(nullable = false)
-    private Long password;
+    private String password;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "schedule_id", nullable = false)
     private Schedule schedule;
 
-    public Comment(String content, String name, Long password, Schedule schedule) {
+    public Comment(String content, String name, String password, Schedule schedule) {
         this.content = content;
         this.name = name;
         this.password = password;

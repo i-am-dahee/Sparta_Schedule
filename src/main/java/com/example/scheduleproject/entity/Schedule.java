@@ -25,9 +25,9 @@ public class Schedule extends BaseEntity {
     private String name;
 
     @Column(nullable = false)
-    private Long password;
+    private String password;
 
-    public Schedule(String title, String content, String name, Long password) {
+    public Schedule(String title, String content, String name, String password) {
         this.title = title;
         this.content = content;
         this.name = name;
