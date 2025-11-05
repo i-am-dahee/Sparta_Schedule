@@ -48,7 +48,12 @@ public class ScheduleService {
 
         List<SimpleComment> comments = commentRepository.findBySchedule_Id(scheduleId)
                 .stream()
-                .map(c -> new SimpleComment(c.getContent(), c.getName()))
+                .map(c -> new SimpleComment (
+                        c.getId(),
+                        c.getContent(),
+                        c.getName(),
+                        c.getCreatedAt(),
+                        c.getModifiedAt()))
                 .toList();
 
         return new GetScheduleResponse(
