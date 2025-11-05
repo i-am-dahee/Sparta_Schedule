@@ -2,7 +2,6 @@ package com.example.scheduleproject.controller;
 
 import com.example.scheduleproject.dto.CreateCommentRequest;
 import com.example.scheduleproject.dto.CreateCommentResponse;
-import com.example.scheduleproject.dto.CreateScheduleResponse;
 import com.example.scheduleproject.service.CommentService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
