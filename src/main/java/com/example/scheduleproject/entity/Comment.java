@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 @Entity
 @Table(name = "comments")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class comment extends BaseEntity {
+public class Comment extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -27,4 +27,11 @@ public class comment extends BaseEntity {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "schedule_id", nullable = false)
     private Schedule schedule;
+
+    public Comment(String content, String name, Long password, Schedule schedule) {
+        this.content = content;
+        this.name = name;
+        this.password = password;
+        this.schedule = schedule;
+    }
 }
