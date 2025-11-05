@@ -2,11 +2,14 @@ package com.example.scheduleproject.service;
 
 import com.example.scheduleproject.dto.*;
 import com.example.scheduleproject.entity.Schedule;
+import com.example.scheduleproject.repository.CommentRepository;
 import com.example.scheduleproject.repository.ScheduleRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Sort;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -16,6 +19,7 @@ import java.util.List;
 public class ScheduleService {
 
     private final ScheduleRepository scheduleRepository;
+    private final CommentRepository commentRepository;
 
     // 일정 생성
     @Transactional
@@ -44,13 +48,24 @@ public class ScheduleService {
                 () -> new IllegalStateException("존재하지 않는 일정입니다.")
         );
 
+        List<SimpleComment> comments = commentRepository.findBySchedule_Id(scheduleId)
+                .stream()
+                .map(c -> new SimpleComment (
+                        c.getId(),
+                        c.getContent(),
+                        c.getName(),
+                        c.getCreatedAt(),
+                        c.getModifiedAt()))
+                .toList();
+
         return new GetScheduleResponse(
                 schedule.getId(),
                 schedule.getTitle(),
                 schedule.getContent(),
                 schedule.getName(),
                 schedule.getCreatedAt(),
-                schedule.getModifiedAt()
+                schedule.getModifiedAt(),
+                comments
         );
     }
 
@@ -88,7 +103,7 @@ public class ScheduleService {
         );
 
         if (!schedule.getPassword().equals(request.getPassword())) {
-            throw new IllegalArgumentException("비밀번호가 일치하지 않습니다.");
+            throw new ResponseStatusException(HttpStatus.FORBIDDEN, "비밀번호가 일치하지 않습니다.");
         }
 
         schedule.update(
@@ -115,7 +130,7 @@ public class ScheduleService {
                 .orElseThrow(() -> new IllegalStateException("존재하지 않는 일정입니다."));
 
         if (!schedule.getPassword().equals(password)) {
-            throw new IllegalArgumentException("비밀번호가 일치하지 않습니다.");
+            throw new ResponseStatusException(HttpStatus.FORBIDDEN, "비밀번호가 일치하지 않습니다.");
         }
 
         scheduleRepository.deleteById(scheduleId);
