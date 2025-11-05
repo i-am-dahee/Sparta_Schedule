@@ -34,4 +34,8 @@ public class Comment extends BaseEntity {
         this.password = password;
         this.schedule = schedule;
     }
+
+    public void update(String content) {
+        this.content = content;
+    }
 }
