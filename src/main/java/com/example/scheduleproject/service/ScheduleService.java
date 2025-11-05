@@ -2,6 +2,7 @@ package com.example.scheduleproject.service;
 
 import com.example.scheduleproject.dto.*;
 import com.example.scheduleproject.entity.Schedule;
+import com.example.scheduleproject.repository.CommentRepository;
 import com.example.scheduleproject.repository.ScheduleRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Sort;
@@ -16,6 +17,7 @@ import java.util.List;
 public class ScheduleService {
 
     private final ScheduleRepository scheduleRepository;
+    private final CommentRepository commentRepository;
 
     // 일정 생성
     @Transactional
@@ -44,13 +46,19 @@ public class ScheduleService {
                 () -> new IllegalStateException("존재하지 않는 일정입니다.")
         );
 
+        List<SimpleComment> comments = commentRepository.findBySchedule_Id(scheduleId)
+                .stream()
+                .map(c -> new SimpleComment(c.getContent(), c.getName()))
+                .toList();
+
         return new GetScheduleResponse(
                 schedule.getId(),
                 schedule.getTitle(),
                 schedule.getContent(),
                 schedule.getName(),
                 schedule.getCreatedAt(),
-                schedule.getModifiedAt()
+                schedule.getModifiedAt(),
+                comments
         );
     }
 
