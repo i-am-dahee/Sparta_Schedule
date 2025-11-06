@@ -4,6 +4,7 @@ import com.example.scheduleproject.dto.*;
 import com.example.scheduleproject.entity.Schedule;
 import com.example.scheduleproject.repository.CommentRepository;
 import com.example.scheduleproject.repository.ScheduleRepository;
+import jakarta.validation.constraints.NotBlank;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
@@ -125,7 +126,7 @@ public class ScheduleService {
 
     // 일정 삭제
     @Transactional
-    public void delete(Long scheduleId, Long password) {
+    public void delete(Long scheduleId, @NotBlank String password) {
         Schedule schedule = scheduleRepository.findById(scheduleId)
                 .orElseThrow(() -> new IllegalStateException("존재하지 않는 일정입니다."));
 
